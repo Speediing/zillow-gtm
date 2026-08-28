@@ -2,6 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "s.zillowstatic.com",
+        pathname: "/pfs/static/z-logo-default.svg",
+      },
+    ],
+  },
   transpilePackages: ["vgpu", "@vgpu/core", "@vgpu/wgsl"],
   turbopack: {
     rules: {

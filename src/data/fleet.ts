@@ -1,36 +1,67 @@
 import type { JobId } from "./types";
 
-export type FleetBot = {
+export type FleetTab = {
   id: string;
-  name: string;
-  blurb: string;
-  color: string;
-  jobId?: JobId;
-  mark?: string;
-  seat?: boolean;
+  label: string;
 };
 
-export const FLEET: FleetBot[] = [
+export type FleetActivity = {
+  id: string;
+  activity: string;
+  blurb: string;
+  tabs: FleetTab[];
+  jobId: JobId;
+};
+
+export const FLEET: FleetActivity[] = [
   {
-    id: "rep",
-    name: "Every sales rep",
-    blurb: "The human stays in control. Their agents keep the surrounding work moving.",
-    color: "#E8E8ED",
-    mark: "AE",
-    seat: true,
+    id: "next-meeting",
+    activity: "Checking the next meeting",
+    blurb: "Opens the calendar and reads what is next.",
+    tabs: [
+      { id: "calendar", label: "Calendar" },
+      { id: "crm", label: "CRM" },
+    ],
+    jobId: "prepare-meeting",
   },
   {
-    id: "inbox",
-    name: "Inbox agent",
-    blurb: "Watches procurement. Finds answers overnight before the rep opens Gmail.",
-    jobId: "legal-redlines",
-    color: "#FF375F",
+    id: "latest-email",
+    activity: "Opening the latest email",
+    blurb: "Reads the inbox and flags what needs a reply.",
+    tabs: [
+      { id: "inbox", label: "Inbox" },
+      { id: "notes", label: "Notes" },
+    ],
+    jobId: "answer-question",
   },
   {
-    id: "cross-sell",
-    name: "Outbound agent",
-    blurb: "Watches target accounts. Builds the 3-why and queues personalized drafts.",
-    jobId: "attach-engine",
-    color: "#FF9500",
+    id: "product-pages",
+    activity: "Checking Zillow product pages",
+    blurb: "Opens the current listings, rentals, and financing pages.",
+    tabs: [
+      { id: "browser", label: "Browser" },
+      { id: "notes", label: "Notes" },
+    ],
+    jobId: "prepare-meeting",
+  },
+  {
+    id: "write-brief",
+    activity: "Writing the brief",
+    blurb: "Turns the calendar, CRM, and pages into a short brief.",
+    tabs: [
+      { id: "document", label: "Document" },
+      { id: "crm", label: "CRM" },
+    ],
+    jobId: "prepare-meeting",
+  },
+  {
+    id: "prepare-followup",
+    activity: "Preparing the follow-up",
+    blurb: "Writes the note and the email after the meeting.",
+    tabs: [
+      { id: "document", label: "Document" },
+      { id: "inbox", label: "Inbox" },
+    ],
+    jobId: "finish-followup",
   },
 ];

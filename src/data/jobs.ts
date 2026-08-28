@@ -1,420 +1,283 @@
-import type { Artifact, CroJob, SlideCard } from "./types";
+import type { Artifact, CroJob } from "./types";
 
-export const ACME_TAIL_SLIDES: SlideCard[] = [
-  {
-    n: 4,
-    kicker: "They said · 4 min ago",
-    voice: "them",
-    title: "The Sev-2",
-    body: "We cannot tell a Sev-2 story across APM and logs without stitching tools.",
-  },
-  {
-    n: 5,
-    kicker: "Mapped live",
-    voice: "us",
-    title: "Start with APM + Logs",
-    body: "Same team that already feels the outage. Start there this quarter.",
-  },
-  {
-    n: 6,
-    kicker: "They said · 4 min ago",
-    voice: "them",
-    title: "The security bar",
-    body: "Security will not let another agent in without SSO and an audit trail.",
-  },
-  {
-    n: 7,
-    kicker: "Mapped live",
-    voice: "us",
-    title: "SSO, then Bits AI",
-    body: "Named on this call. One team. Bits AI after they see a faster fix.",
-  },
-];
-
-export const ACME_PROCUREMENT: Extract<Artifact, { kind: "redlines" }> = {
-  kind: "redlines",
-  title: "Acme procurement · overnight invoices",
-  paperTitle: "Their questions",
-  from: "Jordan Hale, Acme procurement · 5:27am your time",
-  marks: [
+export const MEETING_BRIEF: Extract<Artifact, { kind: "meeting-brief" }> = {
+  kind: "meeting-brief",
+  title: "Meeting brief",
+  eyebrow: "Sample data",
+  when: "Before the meeting",
+  with: "Sample account",
+  goal: "Walk through the open questions and the current product pages.",
+  pages: [
     {
-      text: "Why the $427.51 catch-up, and will it happen again?",
-      note: "Billing-system miss on our side, 1 July–17 July. INV-0081 is the one-time correction. Gap is closed.",
-      take: true,
+      name: "Homes for sale",
+      note: "Open this if the talk is about listings.",
     },
     {
-      text: "Can the admin portal be trusted? Any more retro charges?",
-      note: "Dashboard for usage. Invoices under Billing are the billed record. Flag anything from a closed period before it is billed.",
-      take: true,
+      name: "Rentals",
+      note: "Open this if the talk turns to rentals.",
     },
     {
-      text: "How was the $715.55 Teams invoice calculated?",
-      note: "Two mid-cycle adds, 19→20→21, not one full-year seat. Proration through 17 July 2027. Seat is $384/year.",
-      take: true,
-    },
-    {
-      text: "Spend caps, PO invoicing, per-user limits.",
-      note: "Team-wide monthly cap is on Teams. Per-user caps and annual PO are Enterprise. Do not re-trade that from this inbox.",
-      take: false,
+      name: "Mortgages",
+      note: "Open this only if they ask about financing.",
     },
   ],
-  reply: {
-    to: "Jordan Hale, Acme procurement",
-    subject: "Acme invoices INV-0080 and INV-0081. Answers you can send today",
-    body: "Hi Jordan,\n\nINV-0081 ($427.51) is a one-time catch-up for usage 1–17 July that our billing system missed. Not new usage. Gap is closed. No further retros expected; I would flag any closed-period item before it billed.\n\nDashboard = usage. Billing invoices = what was billed. Those should now match. Send any line that does not.\n\nINV-0080 ($715.55) is two mid-cycle seat adds (19→21), not a full-year seat at $384. Renewal date does not change.\n\nTeam-wide spend cap is on Teams. Per-user caps and annual PO are Enterprise — that stays on the order form.\n\nHappy to jump on a call before these are processed.\n\nBest,",
-  },
+  openItems: [
+    "Confirm who from their side will join.",
+    "Bring the current product pages, not last month's notes.",
+    "Leave time for questions at the end.",
+  ],
 };
 
-export const ACME_OUTBOUND: Extract<Artifact, { kind: "outbound" }> = {
-  kind: "outbound",
-  title: "Acme outbound",
-  account: "Acme",
-  hypothesis: [
+export const SOURCED_REPLY: Extract<Artifact, { kind: "sourced-reply" }> = {
+  kind: "sourced-reply",
+  title: "Sourced reply",
+  eyebrow: "Sample data",
+  to: "Sample contact",
+  subject: "Answers to your product questions",
+  body: "Thanks for the note. I pulled the answers from the current product pages and our last notes. Please review this draft before it goes out.",
+  sources: [
     {
-      k: "Why us",
-      body: "On-call still stitches Prometheus, Grafana, and a log pile to name a Sev-2. APM + Logs is the start, not a catalog pitch.",
+      name: "Product page",
+      note: "How a listing is shown on Zillow.",
     },
     {
-      k: "Why now",
-      body: "Public incident 14 days ago. 47 minutes to name the failing service. Staff SRE JD asks for stitching APM and logs. The pain is current.",
+      name: "Help page",
+      note: "Steps to update a listing.",
     },
     {
-      k: "Why them",
-      body: "VP Eng owns time-to-fix. Platform director lives in that stitch. They are the ones who felt the last Sev-2.",
-    },
-  ],
-  evidence: [
-    {
-      source: "Status page · 14 days ago",
-      finding:
-        "Sev-2, 47 minutes to name the failing service. Postmortem language is still 'we jumped three tools.'",
-    },
-    {
-      source: "Careers · Staff SRE",
-      finding:
-        "JD asks for 'experience stitching APM and logs across teams.' Open role, posted this month.",
-    },
-    {
-      source: "Engineering blog",
-      finding:
-        "We outgrew homegrown dashboards. No named replacement. That is the gap.",
+      name: "Notes",
+      note: "The same question came up in the last meeting.",
     },
   ],
-  targets: [
-    {
-      name: "Priya Shah",
-      role: "VP Engineering",
-      why: "Owns time-to-fix. Named in the SRE hiring chain.",
-    },
-    {
-      name: "Chris Okonkwo",
-      role: "Director, Platform",
-      why: "Team is the one stitching APM and logs today.",
-    },
-  ],
-  page: {
-    headline: "Acme's Sev-2 is a stitching problem",
-    body: "The last incident and the Staff SRE JD say the same thing. Start APM + Logs in the platform team. Bits AI after that team has a week-3 number. Not a product tour.",
+};
+
+export const FOLLOW_UP_PACK: Extract<Artifact, { kind: "follow-up-pack" }> = {
+  kind: "follow-up-pack",
+  title: "Follow-up pack",
+  eyebrow: "Sample data",
+  note: "Thanks for the time today. We covered the open questions and the pages to review next. This note is a draft until you send it.",
+  email: {
+    to: "Sample contact",
+    subject: "Follow-up from today",
+    body: "Thanks for meeting. Here is a short note from the room and the next steps. Please review this draft before I send it.",
   },
+  nextSteps: [
+    "Send the note after you review it.",
+    "Put the next meeting on the calendar.",
+    "Share the product pages we opened.",
+  ],
 };
 
 export const JOBS: CroJob[] = [
   {
-    id: "standardize-room",
+    id: "prepare-meeting",
     number: 1,
-    title: "Update decks in real time",
-    trigger: "A customer call starts",
-    backgroundAction: "Listening to discovery + updating the open deck",
+    title: "Prepare for a customer meeting",
+    trigger: "A meeting is on the calendar",
+    backgroundAction: "Checking the calendar, CRM, and product pages",
     problem:
-      "A generic deck is a pitch they have already sat through. The wow is hearing their own discovery back, then seeing the next product named for their team, while they are still on.",
+      "The next meeting is on the calendar. The brief is not ready. You should not have to click through five tabs to get current.",
     botJob:
-      "Granola is in while you are on. The last slides become their words and a product suggestion that fits this room. Not last quarter's story.",
+      "Grok Bot opens the calendar, reads the CRM, and checks the product pages. It writes a short brief you can take into the room.",
     storyboard: [
       {
-        when: "Minute 8",
-        label: "The call starts. Grok is already listening — no prompt needed.",
+        when: "This morning",
+        label: "The next meeting is on the calendar.",
         scene: "call",
         visual: {
-          kind: "live-call",
-          title: "Acme discovery",
-          people: [
-            { initials: "JW", name: "You" },
-            { initials: "PS", name: "Priya" },
-            { initials: "CO", name: "Chris" },
+          kind: "calendar",
+          title: "Calendar",
+          when: "Next customer meeting",
+          with: "Sample account",
+          note: "Sample data. Next customer meeting.",
+        },
+      },
+      {
+        when: "A few minutes later",
+        label: "The CRM record is open for the same account.",
+        scene: "inspect",
+        visual: {
+          kind: "crm-record",
+          account: "Sample account",
+          fields: [
+            { label: "Next meeting", value: "On the calendar" },
+            { label: "Stage", value: "Open conversation" },
+            { label: "Owner", value: "You" },
+            { label: "Source", value: "Sample data" },
           ],
         },
       },
       {
-        when: "Minute 22",
-        label: "Their exact language lands in the transcript.",
+        when: "Still before the call",
+        label: "Product pages are open so the brief can name the right ones.",
         scene: "demo",
         visual: {
-          kind: "live-transcript",
-          timestamp: "14:31",
-          speaker: "Priya",
-          quote: "We stitch APM and logs together every time there is a Sev-2.",
-          signals: ["Sev-2", "APM + Logs"],
+          kind: "product-pages",
+          status: "Pages open",
+          pages: [
+            { name: "Homes for sale", note: "Listings" },
+            { name: "Rentals", note: "Rentals" },
+            { name: "Mortgages", note: "Financing" },
+          ],
         },
       },
       {
-        when: "Minute 31",
-        label: "Grok maps it to product and rewrites the open deck.",
-        scene: "notes",
-        visual: {
-          kind: "deck-update",
-          eyebrow: "Their words",
-          headline: "A Sev-2 is a stitching problem",
-          product: "Start with APM + Logs",
-          status: "3 slides updated",
-        },
-      },
-      {
-        when: "Minute 35",
-        label: "Present the new slides before the call ends.",
+        when: "Ready for you",
+        label: "The meeting brief is complete.",
         scene: "deck",
-        slides: ACME_TAIL_SLIDES,
+        artifact: MEETING_BRIEF,
       },
     ],
-    unlock:
-      "Hyper-personalized discovery on the slide, plus a tailored product next step, while they are still on.",
-    outcome:
-      "One live call becomes a customer-specific deck — before the call ends.",
+    unlock: "A short brief before you join. Calendar, CRM, and product pages already open.",
+    outcome: "A meeting brief is ready before you join.",
     clips: ["03-slides-granola"],
     demo: {
-      title: "Room Ops",
-      subtitle: "Live discovery · slides in their words",
+      title: "Meeting brief",
+      subtitle: "Calendar to a ready brief",
       participants: [
         { id: "you", name: "You", role: "you" },
         {
-          id: "room",
-          name: "Room Ops",
+          id: "brief",
+          name: "Grok Bot",
           role: "bot",
-          persona: "Turns live discovery into slides that wow this room",
-          color: "#34C759",
-        },
-        {
-          id: "slides",
-          name: "Slides",
-          role: "bot",
-          persona: "Maps what they just said to a product suggestion for this team",
-          color: "#007AFF",
+          persona: "Checks the next meeting and writes the brief",
+          color: "#006AFF",
         },
       ],
       messages: [
         {
           id: "m1",
-          from: "room",
+          from: "brief",
           kind: "routine",
-          body: "Customer call started. I am following Granola and watching for their language, blockers, and product signals. The open deck stays untouched until there is something worth changing.",
+          body: "A meeting with Sample account is on the calendar. Opening the calendar first.",
         },
         {
           id: "m2",
-          from: "room",
+          from: "brief",
           kind: "text",
-          body: "Priya just named the Sev-2 and the security bar in her words. Mapping both to the last slides now while the call is still live.",
+          body: "The CRM record is open. Same account. I am reading the last notes and the open items.",
         },
         {
           id: "m3",
-          from: "room",
+          from: "brief",
           kind: "text",
-          body: "Still on. Granola 14:31. Their discovery is the slide. Sev-2 and the security bar in their words, then the product that fits this team. They should feel known, not pitched.",
+          body: "The product pages are open. I will only name the pages that fit this meeting.",
         },
         {
           id: "m4",
-          from: "slides",
+          from: "brief",
           kind: "draft",
-          draftLabel: "Last slides of the open deck · still on",
-          artifact: {
-            kind: "slides",
-            title: "What we heard",
-            cards: ACME_TAIL_SLIDES,
-          },
+          draftLabel: "Meeting brief",
+          artifact: MEETING_BRIEF,
         },
         {
           id: "m5",
-          from: "room",
-          kind: "draft",
-          draftLabel: "One-pager they can forward",
-          artifact: {
-            kind: "one-pager",
-            title: "Acme one-pager",
-            eyebrow: "One-pager",
-            sections: [
-              {
-                heading: "What we covered",
-                body: "Start with APM + Logs. Security needs SSO and an audit trail. Bits AI as a one-team trial, not a company-wide rollout.",
-              },
-              {
-                heading: "Security path",
-                body: "SSO and audit trail named before any extra products. The security lead from this call stays on the next meeting.",
-              },
-              {
-                heading: "Trial",
-                body: "Bits AI in the same team that starts APM + Logs. Week-3 time-to-fix is the gate. Add seats only after that number.",
-              },
-              {
-                heading: "What we need from you",
-                body: "Tuesday with your contact plus a security co-owner. Bring the contract owner if legal will slow SSO.",
-              },
-            ],
-          },
-        },
-        {
-          id: "m6",
-          from: "room",
-          kind: "draft",
-          draftLabel: "Note they can send inside",
-          artifact: {
-            kind: "packet",
-            title: "Forward this inside Acme",
-            fields: [
-              {
-                label: "Problem in their words",
-                value:
-                  "We cannot tell a Sev-2 story across APM and logs without stitching tools, and security will not let another agent in without SSO and an audit trail.",
-              },
-              {
-                label: "Why now",
-                value:
-                  "The team already agreed to start APM + Logs. Bits AI is useful in that same week-3 window, not after a product tour next quarter.",
-              },
-              {
-                label: "Risks already named",
-                value:
-                  "SSO + audit trail. Legal may slow the contract. Cost came up once and is not in this ask. RUM is not in the room.",
-              },
-              {
-                label: "Exact ask for next Tuesday",
-                value:
-                  "30 minutes. Your contact + a security co-owner. Dated SSO path. Written Bits AI trial scope for one team.",
-              },
-            ],
-          },
-        },
-        {
-          id: "m7",
-          from: "room",
-          kind: "draft",
-          draftLabel: "Gmail to your contact",
-          artifact: {
-            kind: "gmail",
-            title: "Forward to your contact",
-            to: "Acme contact",
-            subject: "Acme / Datadog. Tuesday packet (SSO, Bits AI trial)",
-            body: "Forwarding the internal note from today's room. Problem is in your words. Tuesday ask is your contact + a security co-owner, a dated SSO path, and a one-team Bits AI trial. Nothing else is in the ask.",
-          },
-        },
-        {
-          id: "m8",
-          from: "room",
+          from: "brief",
           kind: "system",
-          body: "Nothing sent. Deck, one-pager, note, and Gmail stay drafts until you tap Send.",
+          body: "Nothing sent. The brief stays a draft until you take it into the room.",
         },
       ],
     },
   },
   {
-    id: "legal-redlines",
+    id: "answer-question",
     number: 2,
-    title: "Find product and internal answers fast",
-    trigger: "A customer question lands",
-    backgroundAction: "Searching product knowledge + internal company context",
+    title: "Answer a product question",
+    trigger: "A product question lands in the inbox",
+    backgroundAction: "Searching product pages and writing a sourced reply",
     problem:
-      "A customer question can turn into a week of Slack across product, billing, finance, and legal. The seller waits, the customer waits, and internal experts lose time repeating answers.",
+      "A product question sits in the inbox. Finding the right page and writing a clear reply can take the morning.",
     botJob:
-      "Grok Bot watches for the question, searches product knowledge and internal company context, and drafts a sourced reply. The seller reviews instead of chasing teams.",
+      "Grok Bot opens the inbox, checks the product pages, and drafts a reply with sources. You review it before it goes out.",
     storyboard: [
       {
-        when: "5:27am your time",
-        label: "Four questions land. Grok starts while you are asleep.",
+        when: "Morning",
+        label: "A product question is in the inbox.",
         scene: "notes",
         visual: {
-          kind: "procurement-email",
-          sender: "Jordan · Acme procurement",
-          subject: "Questions on INV-0080 + 0081",
-          questions: 4,
+          kind: "inbox-item",
+          sender: "Sample contact",
+          subject: "Product questions",
+          preview: "Sample data. Can you point us to the right pages?",
         },
       },
       {
-        when: "7:42am",
-        label: "Grok has already found and checked every answer.",
+        when: "A little later",
+        label: "The product pages and notes are already open.",
         scene: "inspect",
         visual: {
           kind: "answers-found",
+          status: "Sources ready",
           sources: [
-            { name: "Billing", answer: "Catch-up explained" },
-            { name: "Finance", answer: "Proration checked" },
-            { name: "Packaging", answer: "Limits confirmed" },
+            { name: "Product page", answer: "How a listing is shown" },
+            { name: "Help page", answer: "How to update a listing" },
+            { name: "Notes", answer: "Same question last meeting" },
           ],
-          status: "4 / 4 answered",
         },
       },
       {
-        when: "7:44am",
-        label: "A sourced reply is waiting for one-click approval.",
+        when: "Still morning",
+        label: "A sourced reply is waiting for your review.",
         scene: "send",
         visual: {
           kind: "reply-ready",
-          to: "Jordan Hale",
-          subject: "INV-0080 + 0081 · answers",
-          status: "Ready to approve",
+          to: "Sample contact",
+          subject: "Answers to your product questions",
+          status: "Ready to review",
         },
       },
+      {
+        when: "Ready for you",
+        label: "The sourced reply is complete.",
+        scene: "send",
+        artifact: SOURCED_REPLY,
+      },
     ],
-    unlock:
-      "Invoice questions in. A sendable draft out. No week of internal delay.",
-    outcome:
-      "Grok finds the product and internal context, then drafts the answer — no Slack chase and no seller time wasted.",
+    unlock: "A product question in. A sourced draft out. You still tap send.",
+    outcome: "A sourced reply is waiting for your review.",
     clips: ["01-morning-inbox"],
     demo: {
-      title: "Paper",
-      subtitle: "Procurement questions · draft waiting",
+      title: "Product reply",
+      subtitle: "Inbox to a sourced draft",
       participants: [
         { id: "you", name: "You", role: "you" },
         {
-          id: "paper",
-          name: "Paper",
+          id: "reply",
+          name: "Grok Bot",
           role: "bot",
-          persona: "Reads overnight procurement mail and drafts the reply so you do not chase billing",
-          color: "#FF375F",
+          persona: "Opens the latest email and drafts a sourced reply",
+          color: "#006AFF",
         },
       ],
       messages: [
         {
           id: "m1",
-          from: "paper",
+          from: "reply",
           kind: "routine",
-          body: "New Acme procurement thread detected at 5:27am. Two invoices, four questions. Checking billing, finance, and packaging while you are offline.",
+          body: "A product question landed in the inbox. Opening it now.",
         },
         {
           id: "m2",
-          from: "paper",
+          from: "reply",
           kind: "text",
-          body: "Already read it overnight. Four questions. Draft is waiting. You do not need to ping billing, finance, or legal for this one. Nothing sent.",
+          body: "The question is about listings. I am checking the current product page and the help page.",
         },
         {
           id: "m3",
-          from: "paper",
-          kind: "draft",
-          draftLabel: "Questions + reply",
-          artifact: ACME_PROCUREMENT,
+          from: "reply",
+          kind: "text",
+          body: "Sources are ready. Product page, help page, and the last meeting notes. Drafting the reply.",
         },
         {
           id: "m4",
-          from: "paper",
+          from: "reply",
           kind: "draft",
-          draftLabel: "Gmail reply · not sent",
-          artifact: {
-            kind: "gmail",
-            title: "Reply to Acme procurement",
-            to: ACME_PROCUREMENT.reply.to,
-            subject: ACME_PROCUREMENT.reply.subject,
-            body: ACME_PROCUREMENT.reply.body,
-          },
+          draftLabel: "Sourced reply",
+          artifact: SOURCED_REPLY,
         },
         {
           id: "m5",
-          from: "paper",
+          from: "reply",
           kind: "system",
           body: "Nothing sent. The reply stays a draft until you tap Send.",
         },
@@ -422,187 +285,110 @@ export const JOBS: CroJob[] = [
     },
   },
   {
-    id: "attach-engine",
+    id: "finish-followup",
     number: 3,
-    title: "Pipeline generation is now easier than ever",
-    trigger: "A target account enters your list",
-    backgroundAction: "Researching signals + building personalized outreach",
+    title: "Finish the follow-up",
+    trigger: "A meeting ends",
+    backgroundAction: "Writing the note and the follow-up email",
     problem:
-      "Cold outbound is a generic sequence. No research, no hypothesis, no evidence, and a name from a list. Pipeline that lands starts with why this account, why now, and who would care.",
+      "The meeting is over. The note and the email are still blank.",
     botJob:
-      "When an account enters your target list, Grok Bot researches it, writes a 3-why, finds evidence of the pain, names who cares, then drafts LinkedIn, email, and a page. Draft only. You send.",
+      "Grok Bot writes a short note and a follow-up email. Both stay drafts until you send.",
     storyboard: [
       {
-        when: "No meeting yet",
-        label: "Acme hits your target list. Grok starts without a prompt.",
-        scene: "inspect",
-        visual: {
-          kind: "account-research",
-          account: "Acme",
-          sources: ["Status page", "Careers", "Engineering"],
-          signal: "47-minute Sev-2",
-        },
-      },
-      {
-        when: "90 seconds later",
-        label: "It turns public evidence into a sharp 3-why.",
+        when: "Right after the call",
+        label: "The meeting notes are open.",
         scene: "notes",
         visual: {
-          kind: "three-why",
-          items: [
-            { label: "Why us", answer: "APM + Logs" },
-            { label: "Why now", answer: "Sev-2 · 14d ago" },
-            { label: "Why them", answer: "Own time-to-fix" },
+          kind: "meeting-notes",
+          title: "Notes",
+          lines: [
+            "Covered the open questions.",
+            "Walked through the current product pages.",
+            "A written follow-up is still open.",
           ],
         },
       },
       {
-        when: "Campaign ready",
-        label: "The right buyer gets three personalized drafts.",
-        scene: "map",
+        when: "A few minutes later",
+        label: "The follow-up note is in progress.",
+        scene: "deck",
         visual: {
-          kind: "outreach-ready",
-          person: "Priya Shah · VP Engineering",
-          channels: ["LinkedIn", "Email", "Acme page"],
-          status: "3 drafts · 0 sent",
+          kind: "document-draft",
+          title: "Follow-up note",
+          status: "Writing",
+          sections: ["Thanks", "From the meeting", "Next steps"],
         },
       },
       {
-        when: "Ready for your click",
-        label: "Research, message, and account page — all built from their business.",
+        when: "Still the same hour",
+        label: "The email draft is open next to the note.",
         scene: "send",
-        artifact: ACME_OUTBOUND,
+        visual: {
+          kind: "reply-ready",
+          to: "Sample contact",
+          subject: "Follow-up from today",
+          status: "Draft, not sent",
+        },
+      },
+      {
+        when: "Ready for you",
+        label: "The follow-up pack is complete.",
+        scene: "send",
+        artifact: FOLLOW_UP_PACK,
       },
     ],
-    unlock:
-      "Research, a 3-why, evidence, named buyers, and sendable drafts. Nothing fires until you tap.",
-    outcome:
-      "One account in. Research, a 3-why, named buyers, and personalized outreach out.",
+    unlock: "A note and an email after the meeting. Nothing goes out until you send.",
+    outcome: "A follow-up pack is ready for your review.",
     clips: ["02-prospecting-pg"],
     demo: {
-      title: "Outbound",
-      subtitle: "Research to a first meeting",
+      title: "Follow-up",
+      subtitle: "Notes to a sendable pack",
       participants: [
         { id: "you", name: "You", role: "you" },
         {
-          id: "attach",
-          name: "Outbound",
+          id: "follow",
+          name: "Grok Bot",
           role: "bot",
-          persona: "Researches the account, writes the 3-why, and drafts the outreach",
-          color: "#FF9500",
+          persona: "Prepares the follow-up note and email",
+          color: "#006AFF",
         },
       ],
       messages: [
         {
           id: "m1",
-          from: "attach",
+          from: "follow",
           kind: "routine",
-          body: "Acme entered your target-account list. No meeting yet. Researching the account, building the 3-why, and finding the people who would feel the pain. Drafts only.",
+          body: "The meeting with Sample account just ended. Opening the notes.",
         },
         {
           id: "m2",
-          from: "attach",
+          from: "follow",
           kind: "text",
-          body: "In the account. Careers, status page, engineering blog. Staff SRE JD is asking for stitching APM and logs. Status page still has a 47-minute Sev-2. Writing the 3-why from that, not from a persona.",
+          body: "Notes are open. I am writing a short follow-up note from what was covered.",
         },
         {
           id: "m3",
-          from: "attach",
-          kind: "draft",
-          draftLabel: "3-why hypothesis",
-          artifact: {
-            kind: "packet",
-            title: "Acme 3-why",
-            fields: ACME_OUTBOUND.hypothesis.map((item) => ({
-              label: item.k,
-              value: item.body,
-            })),
-          },
+          from: "follow",
+          kind: "text",
+          body: "The note is in the document. Drafting the email next to it. Nothing sent.",
         },
         {
           id: "m4",
-          from: "attach",
+          from: "follow",
           kind: "draft",
-          draftLabel: "Evidence + who cares",
-          artifact: {
-            kind: "packet",
-            title: "Proof, then the people",
-            fields: [
-              ...ACME_OUTBOUND.evidence.map((item) => ({
-                label: item.source,
-                value: item.finding,
-              })),
-              ...ACME_OUTBOUND.targets.map((person) => ({
-                label: `${person.name} · ${person.role}`,
-                value: person.why,
-              })),
-            ],
-          },
+          draftLabel: "Follow-up pack",
+          artifact: FOLLOW_UP_PACK,
         },
         {
           id: "m5",
-          from: "attach",
-          kind: "draft",
-          draftLabel: "LinkedIn · not sent",
-          artifact: {
-            kind: "linkedin",
-            title: "LinkedIn to Priya Shah",
-            to: "Priya Shah",
-            role: "VP Engineering, Acme",
-            body: "Priya — your status page from 14 days ago and the Staff SRE JD say the same thing: on-call still stitches tools to name a Sev-2. 90 seconds on how APM + Logs in the platform team would have named that incident. Draft only. Nothing sent.",
-          },
-        },
-        {
-          id: "m6",
-          from: "attach",
-          kind: "draft",
-          draftLabel: "Gmail · not sent",
-          artifact: {
-            kind: "gmail",
-            title: "Email to Priya Shah",
-            to: "Priya Shah, VP Engineering",
-            subject: "Acme's last Sev-2 and the Staff SRE JD",
-            body: "Priya — the 47-minute Sev-2 and the Staff SRE posting both point at stitching APM and logs. I put a one-page note on how Datadog would start in that platform team, not a product tour. Happy to walk Chris Okonkwo through it too. Nothing else in the ask. Draft only until you tap Send.",
-          },
-        },
-        {
-          id: "m7",
-          from: "attach",
-          kind: "draft",
-          draftLabel: "Page for this account · not live",
-          artifact: {
-            kind: "one-pager",
-            title: ACME_OUTBOUND.page.headline,
-            eyebrow: "Page for Acme",
-            sections: [
-              {
-                heading: "What we saw",
-                body:
-                  ACME_OUTBOUND.evidence[0]?.finding ??
-                  "Public incident. The stitch is still the story.",
-              },
-              {
-                heading: "Why this team",
-                body:
-                  ACME_OUTBOUND.hypothesis.find((item) => item.k === "Why them")
-                    ?.body ?? "VP Eng owns time-to-fix.",
-              },
-              {
-                heading: "How the product maps",
-                body: ACME_OUTBOUND.page.body,
-              },
-            ],
-          },
-        },
-        {
-          id: "m8",
-          from: "attach",
+          from: "follow",
           kind: "system",
-          body: "Nothing sent. LinkedIn, Gmail, and the page stay drafts until you tap Send.",
+          body: "Nothing sent. The note and the email stay drafts until you tap Send.",
         },
       ],
     },
-  }
+  },
 ];
 
 export function getJob(id: string): CroJob | undefined {

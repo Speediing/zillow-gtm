@@ -1,12 +1,8 @@
-# Grok Bot for Datadog GTM
+# Zillow x SpaceXAI
 
-Passworded site. Grok Bot from SpaceXAI, for Datadog GTM.
+Passworded site for [zillow-grokbot.vercel.app](https://zillow-grokbot.vercel.app).
 
-## What it is
-
-Three GTM jobs on one page. Each job has a short problem statement, an interactive Grok Bot demo, and the matching Krista Letz clips under that demo. Below that: a light index of the clips and the public Grok Bot quote wall.
-
-## Run locally
+## Run
 
 ```bash
 cp .env.example .env.local
@@ -14,18 +10,20 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Default password is `land2expand` (override with `SITE_PASSWORD`).
+Open [http://localhost:3000](http://localhost:3000). Password is `land2expand` unless you set `SITE_PASSWORD`.
 
-## Krista clips
-
-Download into `private/media/krista-clips/` from the GitHub release (served only through the passworded `/api/media/...` route):
+## Check
 
 ```bash
-gh release download krista-gtm-clips-720p-2026-08-26 \
-  --repo Speediing/grok-bot-quotes \
-  --dir private/media/krista-clips
+npm run check:zillow
+npm run lint
+npm run build
 ```
+
+## Password
+
+`SITE_PASSWORD` is server-only. Do not put it in `NEXT_PUBLIC_*` variables. Production value is `land2expand`.
 
 ## Deploy
 
-Preview only under the `jasonwiker` Vercel team, project name `datadog-cro`. Set `SITE_PASSWORD=land2expand`. Do not promote to a public production domain until Jason says so.
+Vercel project `zillow-grokbot`. Host: [zillow-grokbot.vercel.app](https://zillow-grokbot.vercel.app). Set `SITE_PASSWORD=land2expand`.

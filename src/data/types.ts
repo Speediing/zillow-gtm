@@ -1,17 +1,12 @@
 export type ClipId =
   | "01-morning-inbox"
   | "02-prospecting-pg"
-  | "03-slides-granola"
-  | "04-engineer-bugbot"
-  | "05-forecast-sfdc"
-  | "06-customer-expert"
-  | "07-customer-exec-brief"
-  | "08-chief-groupchat";
+  | "03-slides-granola";
 
 export type JobId =
-  | "standardize-room"
-  | "legal-redlines"
-  | "attach-engine";
+  | "prepare-meeting"
+  | "answer-question"
+  | "finish-followup";
 
 export type ParticipantRole = "you" | "bot";
 
@@ -49,29 +44,27 @@ export type StoryScene =
 
 export type StoryVisual =
   | {
-      kind: "live-call";
+      kind: "calendar";
       title: string;
-      people: { initials: string; name: string }[];
+      when: string;
+      with: string;
+      note: string;
     }
   | {
-      kind: "live-transcript";
-      timestamp: string;
-      speaker: string;
-      quote: string;
-      signals: string[];
+      kind: "crm-record";
+      account: string;
+      fields: { label: string; value: string }[];
     }
   | {
-      kind: "deck-update";
-      eyebrow: string;
-      headline: string;
-      product: string;
+      kind: "product-pages";
+      pages: { name: string; note: string }[];
       status: string;
     }
   | {
-      kind: "procurement-email";
+      kind: "inbox-item";
       sender: string;
       subject: string;
-      questions: number;
+      preview: string;
     }
   | {
       kind: "answers-found";
@@ -85,20 +78,15 @@ export type StoryVisual =
       status: string;
     }
   | {
-      kind: "account-research";
-      account: string;
-      sources: string[];
-      signal: string;
+      kind: "meeting-notes";
+      title: string;
+      lines: string[];
     }
   | {
-      kind: "three-why";
-      items: { label: string; answer: string }[];
-    }
-  | {
-      kind: "outreach-ready";
-      person: string;
-      channels: string[];
+      kind: "document-draft";
+      title: string;
       status: string;
+      sections: string[];
     };
 
 export type StoryBeat = {
@@ -117,97 +105,31 @@ export type Artifact =
       cards: SlideCard[];
     }
   | {
-      kind: "one-pager";
+      kind: "meeting-brief";
       title: string;
       eyebrow?: string;
-      sections: { heading: string; body: string }[];
+      when: string;
+      with: string;
+      goal: string;
+      pages: { name: string; note: string }[];
+      openItems: string[];
     }
   | {
-      kind: "packet";
+      kind: "sourced-reply";
       title: string;
-      fields: { label: string; value: string }[];
-    }
-  | {
-      kind: "table";
-      title: string;
-      caption?: string;
-      columns: string[];
-      rows: string[][];
-    }
-  | {
-      kind: "outbound";
-      title: string;
-      account: string;
-      hypothesis: { k: string; body: string }[];
-      evidence: { source: string; finding: string }[];
-      targets: { name: string; role: string; why: string }[];
-      page: { headline: string; body: string };
-    }
-  | {
-      kind: "linkedin";
-      title: string;
-      to: string;
-      role?: string;
-      body: string;
-    }
-  | {
-      kind: "talk-tracks";
-      title: string;
-      tracks: { seat: string; line: string }[];
-    }
-  | {
-      kind: "forecast";
-      title: string;
-      status: string;
-      body: string;
-      account?: string;
-      amount?: string;
-      gaps?: { label: string; body: string }[];
-    }
-  | {
-      kind: "gaps";
-      title: string;
-      items: { label: string; body: string }[];
-    }
-  | {
-      kind: "questions";
-      title: string;
-      items: string[];
-    }
-  | {
-      kind: "scorecard";
-      title: string;
-      score: string;
-      notes: string[];
-      betterAnswer: string;
-      weakLine?: string;
-    }
-  | {
-      kind: "deal-kit";
-      title: string;
-      weeks: { label: string; body: string }[];
-      pack: string[];
-    }
-  | {
-      kind: "redlines";
-      title: string;
-      paperTitle: string;
-      from: string;
-      marks: { text: string; note: string; take: boolean }[];
-      reply: { to: string; subject: string; body: string };
-    }
-  | {
-      kind: "gmail";
-      title: string;
+      eyebrow?: string;
       to: string;
       subject: string;
       body: string;
+      sources: { name: string; note: string }[];
     }
   | {
-      kind: "slack";
+      kind: "follow-up-pack";
       title: string;
-      channel: string;
-      body: string;
+      eyebrow?: string;
+      note: string;
+      email: { to: string; subject: string; body: string };
+      nextSteps: string[];
     };
 
 export type DemoMessage = {
@@ -248,13 +170,4 @@ export type CroJob = {
   outcome: string;
   clips: ClipId[];
   demo: DemoThread;
-};
-
-export type Quote = {
-  name: string;
-  handle: string;
-  date: string;
-  avatar: string;
-  quote: string;
-  source: string;
 };

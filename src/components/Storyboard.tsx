@@ -115,93 +115,76 @@ function Laptop({ scene }: { scene: StoryScene }) {
 
 function LiveVisual({ visual }: { visual: StoryVisual }) {
   switch (visual.kind) {
-    case "live-call":
+    case "calendar":
       return (
-        <div className="story-ui story-call-ui" aria-hidden>
+        <div className="story-ui story-cal-ui" aria-hidden>
           <header className="story-ui-bar">
-            <span className="story-ui-dots">
-              <i />
-              <i />
-              <i />
-            </span>
             <strong>{visual.title}</strong>
-            <span className="story-live">Live</span>
+            <span>Today</span>
           </header>
-          <div className="story-call-people">
-            {visual.people.map((person, index) => (
-              <div
-                key={person.initials}
-                className={index === 1 ? "is-speaking" : undefined}
-              >
-                <span>{person.initials}</span>
-                <small>{person.name}</small>
-              </div>
+          <div className="story-cal-body">
+            <strong>{visual.when}</strong>
+            <small>{visual.with}</small>
+            <p>{visual.note}</p>
+          </div>
+        </div>
+      );
+    case "crm-record":
+      return (
+        <div className="story-ui story-crm-ui" aria-hidden>
+          <header className="story-ui-bar">
+            <strong>CRM</strong>
+            <span>{visual.account}</span>
+          </header>
+          <ul>
+            {visual.fields.map((field) => (
+              <li key={field.label}>
+                <span>{field.label}</span>
+                <strong>{field.value}</strong>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    case "product-pages":
+      return (
+        <div className="story-ui story-research-ui" aria-hidden>
+          <header className="story-ui-bar">
+            <strong>Browser</strong>
+            <span>{visual.status}</span>
+          </header>
+          <div className="story-source-orbit">
+            {visual.pages.map((page) => (
+              <span key={page.name}>
+                {page.name}
+              </span>
             ))}
           </div>
-          <footer>
-            <span className="story-wave">||||||||||||</span>
-            Granola is listening
-          </footer>
+          <footer>Sample product pages</footer>
         </div>
       );
-    case "live-transcript":
-      return (
-        <div className="story-ui story-transcript-ui" aria-hidden>
-          <header className="story-ui-bar">
-            <strong>Live transcript</strong>
-            <span>{visual.timestamp}</span>
-          </header>
-          <blockquote>
-            <strong>{visual.speaker}</strong>
-            “{visual.quote}”
-          </blockquote>
-          <footer>
-            {visual.signals.map((signal) => (
-              <span key={signal}>{signal}</span>
-            ))}
-          </footer>
-        </div>
-      );
-    case "deck-update":
-      return (
-        <div className="story-ui story-deck-ui" aria-hidden>
-          <header className="story-ui-bar">
-            <strong>Open deck</strong>
-            <span>Editing now</span>
-          </header>
-          <div className="story-mini-slide">
-            <small>{visual.eyebrow}</small>
-            <strong>{visual.headline}</strong>
-            <span>{visual.product}</span>
-          </div>
-          <footer>✓ {visual.status}</footer>
-        </div>
-      );
-    case "procurement-email":
+    case "inbox-item":
       return (
         <div className="story-ui story-email-ui" aria-hidden>
           <header className="story-ui-bar">
             <strong>Inbox</strong>
-            <span>5:27 AM</span>
+            <span>New</span>
           </header>
           <div className="story-email-body">
-            <span className="story-avatar">JH</span>
+            <span className="story-avatar">SC</span>
             <p>
               <strong>{visual.sender}</strong>
               <small>{visual.subject}</small>
             </p>
           </div>
-          <footer>
-            <strong>{visual.questions}</strong>
-            questions need answers
-          </footer>
+          <footer>{visual.preview}</footer>
         </div>
       );
     case "answers-found":
       return (
         <div className="story-ui story-answers-ui" aria-hidden>
           <header className="story-ui-bar">
-            <strong>Grok checked the sources</strong>
+            <strong>Sources</strong>
             <span>{visual.status}</span>
           </header>
           <ul>
@@ -240,55 +223,32 @@ function LiveVisual({ visual }: { visual: StoryVisual }) {
           <footer>✓ {visual.status}</footer>
         </div>
       );
-    case "account-research":
+    case "meeting-notes":
       return (
-        <div className="story-ui story-research-ui" aria-hidden>
+        <div className="story-ui story-notes-ui" aria-hidden>
           <header className="story-ui-bar">
-            <strong>{visual.account}</strong>
-            <span>Researching</span>
+            <strong>{visual.title}</strong>
+            <span>Open</span>
           </header>
-          <div className="story-source-orbit">
-            <strong>{visual.signal}</strong>
-            {visual.sources.map((source) => (
-              <span key={source}>{source}</span>
+          <ul>
+            {visual.lines.map((line) => (
+              <li key={line}>{line}</li>
             ))}
-          </div>
-          <footer>Public evidence found</footer>
+          </ul>
         </div>
       );
-    case "three-why":
+    case "document-draft":
       return (
-        <div className="story-ui story-why-ui" aria-hidden>
+        <div className="story-ui story-doc-ui" aria-hidden>
           <header className="story-ui-bar">
-            <strong>Account hypothesis</strong>
-            <span>Built from evidence</span>
+            <strong>Document</strong>
+            <span>{visual.status}</span>
           </header>
-          <ol>
-            {visual.items.map((item) => (
-              <li key={item.label}>
-                <span>{item.label}</span>
-                <strong>{item.answer}</strong>
-              </li>
-            ))}
-          </ol>
-        </div>
-      );
-    case "outreach-ready":
-      return (
-        <div className="story-ui story-outreach-ui" aria-hidden>
-          <header className="story-ui-bar">
-            <strong>{visual.person}</strong>
-          </header>
-          <div>
-            {visual.channels.map((channel, index) => (
-              <p key={channel}>
-                <span>{index + 1}</span>
-                <strong>{channel}</strong>
-                <small>Personalized</small>
-              </p>
-            ))}
+          <div className="story-mini-slide">
+            <small>Sample data</small>
+            <strong>{visual.title}</strong>
+            <span>{visual.sections.join(" · ")}</span>
           </div>
-          <footer>{visual.status}</footer>
         </div>
       );
     default: {

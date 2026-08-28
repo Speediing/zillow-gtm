@@ -1,29 +1,34 @@
-const TOOLS = ["Grok Bot", "Claude Cowork", "ChatGPT", "Perplexity"] as const;
+const TOOLS = [
+  "Grok Bot",
+  "Task agents",
+  "Chat assistants",
+  "Research tools",
+] as const;
 
 const ROWS: { label: string; values: string[] }[] = [
   {
     label: "What it is",
     values: [
-      "An always-on agent team with its own computers, working across your tools",
-      "General computer agent",
-      "General AI assistant",
-      "AI research engine",
+      "An agent fleet with its own computers",
+      "An agent for an assigned task",
+      "An assistant inside a chat",
+      "A tool for sourced answers",
     ],
   },
   {
     label: "What starts it",
     values: [
-      "Always on — it starts without a prompt",
+      "A meeting, an email, or a finished call",
       "You assign a task",
-      "You start a chat or task",
+      "You write a prompt",
       "You ask a question",
     ],
   },
   {
     label: "What you get",
     values: [
-      "A team of agents working for you 24/7",
-      "A completed task or artifact",
+      "A draft or artifact ready to review",
+      "A completed task",
       "An answer, analysis, or draft",
       "A sourced research answer",
     ],
@@ -33,10 +38,10 @@ const ROWS: { label: string; values: string[] }[] = [
 export function CompareTable() {
   return (
     <section id="compare" className="compare">
-      <h2>Grok Bot comparison</h2>
+      <h2>What changes with Grok Bot</h2>
       <p className="section-lede">
-        A full team of agents runs in the cloud for you 24/7, starting work
-        without waiting for a prompt.
+        The work starts when a trigger fires. A meeting, an email, or a
+        finished call is enough.
       </p>
       <div className="compare-wrap">
         <table className="compare-table">

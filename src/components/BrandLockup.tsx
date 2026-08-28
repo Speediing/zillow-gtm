@@ -1,3 +1,8 @@
+import Image from "next/image";
+
+const ZILLOW_MARK =
+  "https://s.zillowstatic.com/pfs/static/z-logo-default.svg";
+
 export function BrandLockup({
   size = "md",
 }: {
@@ -6,17 +11,25 @@ export function BrandLockup({
 }) {
   return (
     <div className={`brand-lockup brand-lockup-${size}`}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/brand/datadog-wordmark.svg"
-        alt="Datadog"
-        className="brand-dd"
+      <Image
+        src={ZILLOW_MARK}
+        alt="Zillow"
+        className="brand-z"
+        width={77}
+        height={18}
+        unoptimized
       />
       <span className="brand-times" aria-hidden>
         ×
       </span>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/brand/spacexai.svg" alt="SpaceXAI" className="brand-sxai" />
+      <Image
+        src="/brand/spacexai.svg"
+        alt="SpaceXAI"
+        className="brand-sxai"
+        width={104}
+        height={13}
+        unoptimized
+      />
     </div>
   );
 }
