@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { CompareTable } from "@/components/CompareTable";
 import { AgentFleet } from "@/components/AgentFleet";
+import { HeroDemo } from "@/components/HeroDemo";
 import { HeroTelemetry } from "@/components/HeroTelemetry";
 import { JobSection } from "@/components/JobSection";
+import { QuoteWall } from "@/components/QuoteWall";
 import { SiteNav } from "@/components/SiteNav";
 import { JOBS } from "@/data/jobs";
 
@@ -24,15 +26,7 @@ export default function HomePage() {
           <div className="report-hero">
             <HeroTelemetry />
             <section className="hero">
-              <div>
-                <p className="eyebrow">Grok Bot for Zillow</p>
-                <h1>The brief is written before you ask.</h1>
-                <p className="hero-intro">
-                  Grok Bot checks the next meeting, opens the latest email, and
-                  reads Zillow product pages. It writes the brief and the
-                  follow-up. You review. You send.
-                </p>
-              </div>
+              <HeroDemo />
             </section>
           </div>
         </div>
@@ -71,6 +65,7 @@ export default function HomePage() {
         </div>
 
         <CompareTable />
+        <QuoteWall />
       </div>
 
       <footer className="site-footer">
